@@ -1,0 +1,28 @@
+# server:
+#   port: 9000
+
+logging:
+  level:
+    root: INFO
+    com:
+      example:
+        demo: INFO
+
+user:
+  size: 10
+  name-length: 10
+
+# 暴露 Actuator 的所有接口，并使 health 接口展示所有信息
+# http://localhost:9000/actuator
+# http://localhost:9000/actuator/health
+# http://localhost:9000/actuator/metrics
+# http://localhost:9000/actuator/prometheus
+# 需要在 pom.xml 添加 actuator 包
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    health:
+      show-details: always
