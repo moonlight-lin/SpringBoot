@@ -1,0 +1,7 @@
+spring:
+  profiles:
+    active: dev   # 这个值同样会在 consul 上用到
+                  # consul 的路径应该是 /config/consul-client-service-1,dev/data
+
+server:
+  port: 9000

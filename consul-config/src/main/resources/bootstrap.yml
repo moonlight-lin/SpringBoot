@@ -1,0 +1,17 @@
+spring:
+  application:
+    name: consul-client-service-1
+  cloud:
+    consul:
+      host: localhost    # consul 的 ip 和端口
+      port: 8500
+      config:
+        enabled: true
+        format: yaml     # 有四种格式：yaml/files/properties/key-value, 默认 key-value
+        prefix: config   # 存在 consul 上的目录，默认就是 config
+        default-context: consul-client-service-1    # 存在 consul 上的应用名字，默认是 spring.application.name
+        data-key: data   # 存在 consul 上的配置的 key，对应的 value 就相等于 application.yaml 的所有内容
+        watch:
+          enabled: true  # 启用配置自动刷新，默认 true
+          delay: 10000   # 刷新频率，单位毫秒，默认 1000
+          wait-time: 30  # 查询等待的时间，单位秒，默认 55
