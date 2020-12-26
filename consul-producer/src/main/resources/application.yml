@@ -1,0 +1,13 @@
+server:
+  port: 8501
+  
+spring:
+  application:
+    name: spring-cloud-consul-service-1
+  cloud:
+    consul:
+      host: localhost
+      port: 8500
+      discovery:
+        # 注册到 consul 的服务名称
+        serviceName: consul-service-1
