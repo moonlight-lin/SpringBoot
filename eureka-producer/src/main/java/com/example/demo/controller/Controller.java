@@ -5,8 +5,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @RestController
 public class Controller {
-	@RequestMapping("/api")
-	public String index() {
-		return "Greetings from Eureka Producer!";
-	}
+    @RequestMapping("/api")
+    public String index() {
+        return "Greetings from Eureka Producer 1!";
+    }
 }
