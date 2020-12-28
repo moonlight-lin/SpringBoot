@@ -19,52 +19,52 @@ import rx.Observable;
 public class Controller {
     @RequestMapping("/hello")
     public String hello() throws InterruptedException, ExecutionException {
-    	// 就算同样的命令也要重新 new 一个
-    	
-    	// sync
-    	// 实际上调用的是 queue().get()
-    	String exeucte_result = new CommandHelloWorld("Bob").execute();
-    	
-    	// async
-    	// 实际调用的是 toObservable().toBlocking().toFuture()
-    	// 当执行 future.get() 时才真正执行命令
-    	Future<String> future = new CommandHelloWorld("World").queue();
-    	
-    	// async
-    	// returns a “hot” Observable that executes the command immediately, 
-    	// though because the Observable is filtered through a ReplaySubject you are not in danger
-    	// of losing any items that it emits before you have a chance to subscribe
-    	//
-    	// 实际上是调用了 toObservable().subscribe 让命令执行，再调用 doOnUnsubscribe 好让后面的用户代码执行 subscribe
-    	final StringBuilder observe_string = new StringBuilder();
-    	Observable<String> observe = new CommandHelloWorld("Hystirx").observe();
-    	//observe.subscribe(d -> System.out.println(d));
-    	observe.subscribe(d -> observe_string.append(d));
-    	
-    	// async
-    	// returns a “cold” Observable that won’t execute the command and begin emitting its results 
-    	// until you subscribe to the Observable
-    	final StringBuilder observable_string = new StringBuilder();
-    	Observable<String> observable = new CommandHelloWorld("Spring").toObservable();
-    	//observable.subscribe(d -> System.out.println(d));
-    	observable.subscribe(d -> observable_string.append(d));
-    	
-    	// 无论是 observe() 还是 toObservable() 实际都是异步的，因为 subscribe 函数不会阻塞，
-    	// 可以看到 observe_string 和 observable_string 有时有值，有时是空的
-    	return "execute: " + exeucte_result + "<br>queue: " + future.get() + 
-    		   "<br>observe: " + observe_string + "<br>observable: " + observable_string;
+        // 就算同样的命令也要重新 new 一个
+        
+        // sync
+        // 实际上调用的是 queue().get()
+        String exeucte_result = new CommandHelloWorld("Bob").execute();
+        
+        // async
+        // 实际调用的是 toObservable().toBlocking().toFuture()
+        // 当执行 future.get() 时才真正执行命令
+        Future<String> future = new CommandHelloWorld("World").queue();
+        
+        // async
+        // returns a “hot” Observable that executes the command immediately, 
+        // though because the Observable is filtered through a ReplaySubject you are not in danger
+        // of losing any items that it emits before you have a chance to subscribe
+        //
+        // 实际上是调用了 toObservable().subscribe 让命令执行，再调用 doOnUnsubscribe 好让后面的用户代码执行 subscribe
+        final StringBuilder observe_string = new StringBuilder();
+        Observable<String> observe = new CommandHelloWorld("Hystirx").observe();
+        //observe.subscribe(d -> System.out.println(d));
+        observe.subscribe(d -> observe_string.append(d));
+        
+        // async
+        // returns a “cold” Observable that won’t execute the command and begin emitting its results 
+        // until you subscribe to the Observable
+        final StringBuilder observable_string = new StringBuilder();
+        Observable<String> observable = new CommandHelloWorld("Spring").toObservable();
+        //observable.subscribe(d -> System.out.println(d));
+        observable.subscribe(d -> observable_string.append(d));
+        
+        // 无论是 observe() 还是 toObservable() 实际都是异步的，因为 subscribe 函数不会阻塞，
+        // 可以看到 observe_string 和 observable_string 有时有值，有时是空的
+        return "execute: " + exeucte_result + "<br>queue: " + future.get() + 
+               "<br>observe: " + observe_string + "<br>observable: " + observable_string;
     }
     
     @RequestMapping("/fail")
     public String fail() {
-    	return new CommandHelloFailure("Hystirx").execute();
+        return new CommandHelloFailure("Hystirx").execute();
     }
     
     @RequestMapping("/cache")
     public String cache() {
-    	final StringBuilder result = new StringBuilder();
-    	
-    	HystrixRequestContext context = HystrixRequestContext.initializeContext();
+        final StringBuilder result = new StringBuilder();
+        
+        HystrixRequestContext context = HystrixRequestContext.initializeContext();
         try {
             CommandUsingRequestCache command2a = new CommandUsingRequestCache(2);
             CommandUsingRequestCache command2b = new CommandUsingRequestCache(2);
@@ -93,17 +93,17 @@ public class Controller {
     
     @RequestMapping("/collapser")
     public String collapser() throws InterruptedException, ExecutionException {
-    	final StringBuilder result = new StringBuilder();
-    	
-    	HystrixRequestContext context = HystrixRequestContext.initializeContext();
-    	
-    	Future<String> f1 = new CommandCollapserGetValueForKey(1).queue();
+        final StringBuilder result = new StringBuilder();
+        
+        HystrixRequestContext context = HystrixRequestContext.initializeContext();
+        
+        Future<String> f1 = new CommandCollapserGetValueForKey(1).queue();
         Future<String> f2 = new CommandCollapserGetValueForKey(2).queue();
         Future<String> f3 = new CommandCollapserGetValueForKey(3).queue();
         Future<String> f4 = new CommandCollapserGetValueForKey(4).queue();
 
         try {
-        	System.out.println("f1.get()");
+            System.out.println("f1.get()");
             result.append("<br>" + f1.get());
             System.out.println("f2.get()");
             result.append("<br>" + f2.get());

@@ -20,7 +20,7 @@ public class CommandUsingRequestCache extends HystrixCommand<Boolean> {
 
     @Override
     protected String getCacheKey() {
-    	// 获取 key，相同的 key 使用同一个 cache，这里直接把传给 HystrixCommand 的 value 作为 key
+        // 获取 key，相同的 key 使用同一个 cache，这里直接把传给 HystrixCommand 的 value 作为 key
         return String.valueOf(value);
     }
 }
