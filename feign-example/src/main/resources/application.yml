@@ -1,0 +1,26 @@
+server:
+  port: 9000
+
+spring:
+  application:
+    name: spring-cloud-feign-example
+  cloud:
+    consul:
+      host: localhost
+      port: 8500
+      discovery:
+        # 设置不需要注册到 consul 中
+        register: false
+
+feign:
+  client:
+    config:
+      feignName:      ## 定义 FeginClient 的名称，可以是任意名字
+        connectTimeout: 5000
+        readTimeout: 5000
+        loggerLevel: full
+  compression:
+    request:
+      enabled: true      ## 开启请求压缩
+    response:
+      enabled: true      ## 开启响应压缩
