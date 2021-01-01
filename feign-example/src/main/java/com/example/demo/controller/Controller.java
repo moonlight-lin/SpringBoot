@@ -10,12 +10,12 @@ import com.example.demo.feign.DemoFeignClient;
 
 @RestController
 public class Controller {
-	@Autowired
+    @Autowired
     private DemoFeignClient demoFeignClient;
 	
     @RequestMapping("/query/{id}")
     public String qurey(@PathVariable Long id) {
-    	// 调用 Feign Client，本质上还是调用 RestTemplate 的方式，Feign 会进行转化
+        // 调用 Feign Client，本质上还是调用 RestTemplate 的方式，Feign 会进行转化
         return demoFeignClient.findProductById(id);
     }
 }
