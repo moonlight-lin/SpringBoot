@@ -1,0 +1,29 @@
+server:
+  port: 9000
+
+spring:
+  cloud:
+    gateway:
+      routes:
+      - id: service-01               ## 每个路由的 id，任意名字，不会出现在 url 中
+        uri: http://localhost:8501   ## 和这个路由匹配的请求都转发到 http://localhost:8501
+        order: 0                     ## 优先级，一个请求有可能和多个路由匹配，会执行高优先级的路由
+          
+        predicates:                  ## 谓词，满足下面列举的条件的请求，就和这个路由匹配上
+        - Path=/product-service/**   ## 匹配 url 为 /product-service/** 的请求
+                                     ## 即 gateway-host:gateway-port/product-service/** 会被转发到 http://localhost:8501/**
+          
+        filters:                     ## 过滤，对请求做一些处理（下面这里是两个过滤器）
+        - StripPrefix=1              ## 第一个过滤器：截断路径中的第一个字段，比如 /test/abc 变成 /abc
+        - name: Hystrix              ## 第二个过滤器：通过 Hystrix 做熔断
+          args:
+            name: fallbackCmdA  
+            fallbackUri: forward:/fallbackA    ## 将 forward 服务的 fallbackA 路径的输出作为熔断的返回
+
+hystrix:
+  command:
+    fallbackCmdA:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 5000
