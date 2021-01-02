@@ -1,0 +1,15 @@
+server:
+  port: 9000
+
+zuul:
+  prefix: /api   # 访问网关路径的前缀
+  routes:
+    service-01:                       # 服务的名字，可以是任意名字，不会出现在 zuul 的 url 中
+      path: /product-service/**       # 将服务的这个 path，映射到下面的 URL，或是 service id (如果使用了 Consul 或 Eureka)
+      url: http://localhost:8501      # 比如 zuul-host:zuul-port/api/product-service/product/1 会被映射成 http://localhost:8501/product/1
+      # service-id: consul-service-1
+    service-02:
+      path: /hello-service/**
+      url: http://localhost:8505
+      # service-id: consul-service-1
+  retryable: true
