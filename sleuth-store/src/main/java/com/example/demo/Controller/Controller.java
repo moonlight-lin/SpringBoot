@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class Controller {
-	private static Logger log = LoggerFactory.getLogger(Controller.class);
+    private static Logger log = LoggerFactory.getLogger(Controller.class);
 	
     @GetMapping("/store/price/{id}")
     public String price(@PathVariable("id") String id) {

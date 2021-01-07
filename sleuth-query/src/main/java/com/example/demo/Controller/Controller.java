@@ -11,7 +11,7 @@ import org.springframework.web.client.RestTemplate;
 
 @RestController
 public class Controller {
-	private static Logger log = LoggerFactory.getLogger(Controller.class);
+    private static Logger log = LoggerFactory.getLogger(Controller.class);
  
     @Autowired
 	private RestTemplate restTemplate;
