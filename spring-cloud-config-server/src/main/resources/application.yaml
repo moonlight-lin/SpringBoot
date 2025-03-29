@@ -1,0 +1,21 @@
+server:
+  port: 8888
+
+logging:
+  level:
+    root: INFO
+
+spring:
+  profiles:
+    active: native    # in order to use local file (use git url by default)
+  cloud:
+    config:
+      server:
+        native:
+          search-locations: file:///C:/Users/Lin/Downloads/config-server/
+#        git:
+#          uri: https://github.com/my-repo
+#          search-paths: 'config-folder'
+#          clone-on-start: true
+#          username: user
+#          password: pass
