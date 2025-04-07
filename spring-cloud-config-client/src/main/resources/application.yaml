@@ -1,0 +1,24 @@
+server:
+  port: 9999
+
+logging:
+  level:
+    root: INFO
+
+spring:
+  profiles:
+    active: preprod   # 自动到 config server 找 application-preprod.yml (也可以设置自己的 application 名字)
+  config:
+    import: optional:configserver:http://localhost:8888   # 指定 config server 地址
+
+management:
+  endpoint:
+    health:
+      show-details: always
+  endpoints:
+    web:
+      exposure:
+        include: health,refresh   # 暴露 refresh 接口用于刷新配置项
+      base-path: /
+      path-mapping:
+        health: health
